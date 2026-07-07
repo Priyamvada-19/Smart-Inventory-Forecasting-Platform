@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-chainmind_root_pw}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-chainmind}
+      MYSQL_USER: ${MYSQL_USER:-chainmind_app}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-chainmind_app_pw}
+    ports:
+      - "3306:3306"
+    volumes:
+      - chainmind_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  api:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-mysql+pymysql://chainmind_app:chainmind_app_pw@db:3306/chainmind}
+      SECRET_KEY: ${SECRET_KEY:-dev-secret-do-not-use-in-production}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-60}
+      SEED_ON_STARTUP: ${SEED_ON_STARTUP:-true}
+    ports:
+      - "8000:8000"
+    volumes:
+      - chainmind_artifacts:/srv/artifacts
+
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+
+volumes:
+  chainmind_mysql_data:
+  chainmind_artifacts:
