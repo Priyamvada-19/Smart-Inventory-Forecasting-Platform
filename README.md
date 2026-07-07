@@ -8,15 +8,6 @@ actually talk to each other.
 
 ## What you have
 
-Two deliverables:
-
-| File | What it is |
-|---|---|
-| `chainmind-control.jsx` | The frontend. Works standalone (generates realistic demo data in-browser) **or** connects live to the backend below. |
-| `chainmind-backend.zip` | FastAPI + MySQL + trained ML models. Runs via Docker Compose. |
-
----
-
 ## ✅ Fully included and working
 
 **All 10 modules, backed by real logic (not just UI mockups):**
@@ -54,7 +45,7 @@ patterns):
 
 ---
 
-## ⚠️ Simulated or placeholder (present in the UI, not fully wired)
+##  Simulated or placeholder (present in the UI, not fully wired)
 
 - **"Continue with Google" button (frontend)** — simulates the flow with a loading state, then logs you in as a demo user. The *backend* verification endpoint is real and working; what's missing is the frontend piece (Google Identity Services script + a registered OAuth Client ID tied to a fixed domain). An artifact preview has no such fixed origin, which is why this wasn't completed end-to-end.
 - **"Executive Summary" and "Supplier Scorecard" report buttons** — visible in the Reports tab, not wired to generate anything yet. Only "Inventory Detail" (CSV) actually works.
@@ -96,12 +87,6 @@ Visit `http://localhost:8000/docs` (API) or `http://localhost:8080` (Adminer, DB
 
 Default login: `admin@chainmind.local` / `ChangeMe123!` — **change this before any real deployment.**
 
-**Frontend:**
-Open `chainmind-control.jsx` in Claude or any React/artifact environment.
-It works immediately with demo data. To connect it to your running backend,
-log in and click "Connect to a different backend" if it isn't already
-pointed at `http://localhost:8000`.
-
 ---
 
 ## Tech stack
@@ -141,7 +126,7 @@ app/
 | `manager` | + create/update products, suppliers, inventory; recompute supplier tiers |
 | `admin`   | + delete products, full access |
 
-## Google sign-in setup (to make it fully real)
+## Google sign-in setup (to make it fully real, it is yet to be implemented)
 
 1. Create an OAuth 2.0 Client ID (Web application) in Google Cloud Console, with your frontend's exact URL under "Authorized JavaScript origins".
 2. Set `GOOGLE_CLIENT_ID` in the backend's `.env`.
@@ -160,3 +145,5 @@ Retrain everything anytime:
 docker compose exec api python -m app.ml.train_all
 ```
 # Smart-Inventory-Forecasting-Platform
+
+(This a working website with few features that will be added later)
