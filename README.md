@@ -144,6 +144,5 @@ Retrain everything anytime:
 ```bash
 docker compose exec api python -m app.ml.train_all
 ```
-# Smart-Inventory-Forecasting-Platform
 
 (This a working website with few features that will be added later)
